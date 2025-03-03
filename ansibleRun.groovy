@@ -18,13 +18,6 @@ pipeline{
         stage('Checkout'){
             steps{
                 println("\033[38;2;0;205;0mChecking out ${git_url} ${git_branch}\033[0m")
-                checkout scmGit(
-                    branches: [[name: '*/main']], 
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/your-repo/your-project.git',
-                        credentialsId: 'github-credentials'
-                    ]]
-                )
             }
         }
     }
