@@ -19,7 +19,7 @@ pipeline{
         stage('Checkout'){
             steps{
                 println("\033[38;2;138;43;226m[ansibleRun.Checkout] Checking out ${git_url} \"${git_branch}\" \033[0m")
-                try{
+                try {
                     checkout scmGit(
                         branches: [[name: '${git_branch}']], 
                         userRemoteConfigs: [[
