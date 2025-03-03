@@ -1,9 +1,9 @@
 #!/usr/bin/env groovy
 
-class OtusLibrary implements Serializable {
+class OtusLibraryImpl implements Serializable {
     def script
 
-    OtusLibrary(script) {
+    OtusLibraryImpl(script) {
         this.script = script
     }
 
@@ -27,5 +27,5 @@ class OtusLibrary implements Serializable {
 }
 
 def call(script) {
-    return new OtusLibrary(script)
+    return new OtusLibraryImpl(script)
 }
