@@ -8,7 +8,7 @@ pipeline{
         stage('print'){
             steps{
                 script{
-                    println(${str})
+                    println("${str}")
                 }
             }
         }
