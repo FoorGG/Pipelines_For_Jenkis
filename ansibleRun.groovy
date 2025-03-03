@@ -17,7 +17,7 @@ pipeline{
     stages{
         stage('Checkout'){
             steps{
-                println("\033[38;2;0;205;0mChecking out ${git_url} ${git_branch}\033[0m")
+                println("\033[38;2;0;205;0mChecking out ${git_url} \"${git_branch}\" \033[0m")
             }
         }
     }
