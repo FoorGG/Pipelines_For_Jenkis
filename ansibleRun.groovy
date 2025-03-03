@@ -35,7 +35,7 @@ pipeline {
                             ]]
                         )
                     } catch (Exception e) {
-                    nsible C    println("\033[38;2;255;0;0m[ansibleRun.Checkout] ERROR: checking out ${git_url} \"${git_branch}\" \033[0m")
+                        println("\033[38;2;255;0;0m[ansibleRun.Checkout] ERROR: checking out ${git_url} \"${git_branch}\" \033[0m")
                         throw e
                     }
                 }
@@ -47,14 +47,16 @@ pipeline {
                 println("\033[38;2;138;43;226m[ansibleRun.Stage(\'Ansible Checkout\')] Проверка Ansible\033[0m")
                 script {
                     try {
-                        def checkAnsible = OtusLibrary.checkAnsible()
-                        if (checkAnsible()) {
-                            println("\033[38;2;138;43;226m[ansibleRun.Stage(\'Ansible Checkout\')] INFO: Ansible is installed\033[0m")
+                        def otusLib = OtusLibrary(this)
+                        
+                        if (otusLib.checkAnsible()) {
+                            println("\033[38;2;138;43;226m[Pipeline] Ansible is installed\033[0m")
+                           
                         } else {
-                            println("\033[38;2;255;0;0m[ansibleRun.Stage(\'Ansible Checkout\')] ERROR: Ansible is not installed\033[0m")
-                        }   
+                            println("\033[38;2;255;0;0m[Pipeline] Ansible is not installed\033[0m")
+                        }
                     } catch (Exception e) {
-                        println("\033[38;2;255;0;0m[ansibleRun.Stage(\'Ansible Checkout\')] ERROR: Ansible playbook check failed\033[0m")
+                        println("\033[38;2;255;0;0m[Pipeline] ERROR: ${e.getMessage()}\033[0m")
                         throw e
                     }
                 }
