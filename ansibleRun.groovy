@@ -1,4 +1,4 @@
-@Library('OtusLibrary') _
+@Library('shared-library') _
 
 def otusLibrary = new OtusLibrary()
 
