@@ -1,5 +1,4 @@
 String library_url = 'https://github.com/FoorGG/Pipelines_For_Jenkis.git'
-String library_credentials = '12445fd4-62fb-4b17-81d0-8fba8e27be48'
 
 String git_url = env.GIT_URL
 String git_branch = env.GIT_BRANCH
@@ -9,7 +8,7 @@ library identifier: 'OtusLibrary@main',
         retriever: modernSCM([
             $class: 'GitSCMSource',
             remote: "${library_url}",
-            credentialsId: "${library_credentials}"
+            credentialsId: "${git_credentials}"
         ])
 
 pipeline {
