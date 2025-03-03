@@ -8,8 +8,8 @@ String git_credentials = env.GIT_CREDENTIALS
 library identifier: 'OtusLibrary@main', 
         retriever: modernSCM([
             $class: 'GitSCMSource',
-            remote: '${library_url}',
-            credentialsId: '${library_credentials}'
+            remote: "${library_url}",
+            credentialsId: "${library_credentials}"
         ])
 
 pipeline {
