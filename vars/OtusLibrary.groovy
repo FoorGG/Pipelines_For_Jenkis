@@ -5,7 +5,7 @@ class OtusLibrary {
         boolean isInstalled;
 
         try {
-            sh 'ansible --version'
+            sh '/var/lib/jenkins/ansible/ansible --version'
             isInstalled = true
         } catch (Exception e) {
             isInstalled = false
