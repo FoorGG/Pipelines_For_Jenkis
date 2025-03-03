@@ -20,10 +20,10 @@ pipeline{
                 
                 println("\032[32mChecking out ${git_url} ${git_branch}\033[0m")
 
-                }
             }
         }
     }
+    
 
     post {
         always {
