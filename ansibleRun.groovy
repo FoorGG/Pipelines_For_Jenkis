@@ -7,17 +7,17 @@ String git_url = env.GIT_URL
 String git_branch = env.GIT_BRANCH
 String git_credentials = env.GIT_CREDENTIALS
 
-pipeline{
-
+pipeline {
+    
     agent any
 
     options {
         ansiColor('xterm')
     }
 
-    stages{
-        stage('Checkout'){
-            steps{
+    stages {
+        stage('Checkout') {
+            steps {
                 println("\033[38;2;138;43;226m[ansibleRun.Checkout] Checking out ${git_url} \"${git_branch}\" \033[0m")
                 script {
                     try {
@@ -35,21 +35,21 @@ pipeline{
                 }
             }
         }
-    }
-    
-    stage('Ansible Checkout'){
-        steps{
-            script{
-                try{
-                    sh 'ansible --version'
-                } catch (Exception e) {
-                    println("\033[38;2;255;0;0m[ansibleRun.Ansible Checkout] ERROR: ansible not found \033[0m")
-                    throw e
+        
+        stage('Ansible Checkout') {
+            steps {
+                script {
+                    try {
+                        sh 'ansible --version'
+                    } catch (Exception e) {
+                        println("\033[38;2;255;0;0m[ansibleRun.Ansible Checkout] ERROR: ansible not found \033[0m")
+                        throw e
+                    }
                 }
             }
         }
     }
-
+    
     post {
         always {
             deleteDir()
@@ -58,5 +58,4 @@ pipeline{
             }
         }
     }
-
 }
