@@ -54,6 +54,7 @@ pipeline {
                            
                         } else {
                             println("\033[38;2;255;0;0m[Pipeline] Ansible is not installed\033[0m")
+                            error("Ansible is not installed")
                         }
                     } catch (Exception e) {
                         println("\033[38;2;255;0;0m[Pipeline] ERROR: ${e.getMessage()}\033[0m")
