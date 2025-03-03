@@ -1,8 +1,14 @@
-#!/usr/bin/env groovy
+
 
 class OtusLibrary {
-    def checkAnsible() {
-        def result = sh(script: 'ansible --version', returnStatus: true)
-        return result == 0
+    boolean checkAnsible() {
+        boolean isInstalled;
+        try {
+            def result = sh(script: 'ansible --version', returnStatus: true)
+            isInstalled = true
+        } catch (Exception e) {
+            isInstalled = false
+        }
+        return isInstalled;
     }
 }
