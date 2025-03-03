@@ -1,3 +1,6 @@
+@Library('shared-library') _
+
+def otusLibrary = new OtusLibrary()
 
 String git_url = env.GIT_URL
 String git_branch = env.GIT_BRANCH
