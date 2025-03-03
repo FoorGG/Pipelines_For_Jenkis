@@ -11,5 +11,12 @@ pipeline{
             }
         }
     }
-
+    post {
+        always {
+            cleanWs()
+            dir("workdir") {
+                deleteDir()
+            }
+        }
+    }
 }
