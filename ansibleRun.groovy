@@ -1,12 +1,14 @@
+def str = ENV.STRING
+
 pipeline{
 
     agent any
 
     stages{
-        stage('Checkout'){
+        stage('print'){
             steps{
                 script{
-                    println("Hello World")
+                    println(${str})
                 }
             }
         }
