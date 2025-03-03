@@ -47,7 +47,8 @@ pipeline {
                 println("\033[38;2;138;43;226m[ansibleRun.Stage(\'Ansible Checkout\')] Проверка Ansible\033[0m")
                 script {
                     try {
-                        if (OtusLibrary.checkAnsible()) {
+                        def checkAnsible = OtusLibrary.checkAnsible()
+                        if (checkAnsible()) {
                             println("\033[38;2;138;43;226m[ansibleRun.Stage(\'Ansible Checkout\')] INFO: Ansible is installed\033[0m")
                         } else {
                             println("\033[38;2;255;0;0m[ansibleRun.Stage(\'Ansible Checkout\')] ERROR: Ansible is not installed\033[0m")
