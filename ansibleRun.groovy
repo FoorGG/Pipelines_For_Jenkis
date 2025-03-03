@@ -18,6 +18,7 @@ pipeline {
 
     options {
         ansiColor('xterm')
+        timestamps()
     }
 
     stages {
@@ -34,7 +35,7 @@ pipeline {
                             ]]
                         )
                     } catch (Exception e) {
-                        println("\033[38;2;255;0;0m[ansibleRun.Checkout] ERROR: checking out ${git_url} \"${git_branch}\" \033[0m")
+                    nsible C    println("\033[38;2;255;0;0m[ansibleRun.Checkout] ERROR: checking out ${git_url} \"${git_branch}\" \033[0m")
                         throw e
                     }
                 }
