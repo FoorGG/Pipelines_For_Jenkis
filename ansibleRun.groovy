@@ -37,6 +37,18 @@ pipeline{
         }
     }
     
+    stage('Ansible Checkout'){
+        steps{
+            script{
+                try{
+                    sh 'ansible --version'
+                } catch (Exception e) {
+                    println("\033[38;2;255;0;0m[ansibleRun.Ansible Checkout] ERROR: ansible not found \033[0m")
+                    throw e
+                }
+            }
+        }
+    }
 
     post {
         always {
