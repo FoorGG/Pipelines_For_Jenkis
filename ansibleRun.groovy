@@ -1,10 +1,14 @@
-@Library('OtusLibrary') _
-
-def otusLibrary = new OtusLibrary()
 
 String git_url = env.GIT_URL
 String git_branch = env.GIT_BRANCH
 String git_credentials = env.GIT_CREDENTIALS
+
+library identifier: 'OtusLibrary@main', 
+        retriever: modernSCM([
+            $class: 'GitSCMSource',
+            remote: '${git_url}',
+            credentialsId: '${git_credentials}'
+        ])
 
 pipeline {
 
