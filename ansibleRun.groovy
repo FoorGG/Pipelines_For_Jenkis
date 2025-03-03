@@ -1,8 +1,4 @@
-// String ansible_playbook = env.ANSIBLE_PLAYBOOK
-// String ansible_inventory = env.ANSIBLE_INVENTORY
-// String ansible_user = env.ANSIBLE_USER
-// String ansible_password = env.ANSIBLE_PASSWORD
-// String ansible_ssh_key = env.ANSIBLE_SSH_KEY
+
 String git_url = env.GIT_URL
 String git_branch = env.GIT_BRANCH
 String git_credentials = env.GIT_CREDENTIALS
@@ -38,11 +34,17 @@ pipeline {
         
         stage('Ansible Checkout') {
             steps {
+                println("\033[38;2;138;43;226m[ansibleRun.Ansible Checkout] Проверка Ansible\033[0m")
                 script {
                     try {
-                        sh 'ansible --version'
+                        if (OtusLibrary.checkAnsible()) {
+                            println("\033[38;2;138;43;226m[ansibleRun.Ansible Checkout] INFO: Ansible is installed\033[0m")
+                        } else {
+                            println("\033[38;2;255;0;0m[ansibleRun.Ansible Checkout] ERROR: Ansible is not installed\033[0m")
+                            throw new Exception("Ansible is not installed")
+                        }   
                     } catch (Exception e) {
-                        println("\033[38;2;255;0;0m[ansibleRun.Ansible Checkout] ERROR: ansible not found \033[0m")
+                        println("\033[38;2;255;0;0m[ansibleRun.Ansible Checkout] ERROR: Ansible playbook check failed\033[0m")
                         throw e
                     }
                 }
