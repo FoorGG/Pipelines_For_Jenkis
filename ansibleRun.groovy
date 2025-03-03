@@ -17,7 +17,7 @@ pipeline{
     stages{
         stage('Checkout'){
             steps{
-                println("\033[38;2;138;43;226mansibleRun.Checkout] Checking out ${git_url} \"${git_branch}\" \033[0m")
+                println("\033[38;2;138;43;226m[ansibleRun.Checkout] Checking out ${git_url} \"${git_branch}\" \033[0m")
             }
         }
     }
