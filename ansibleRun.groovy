@@ -8,7 +8,7 @@ String git_branch = env.GIT_BRANCH
 String git_credentials = env.GIT_CREDENTIALS
 
 pipeline {
-    
+
     agent any
 
     options {
@@ -18,7 +18,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                println("\033[38;2;138;43;226m[ansibleRun.Checkout] Checking out ${git_url} \"${git_branch}\" \033[0m")
+                println("\033[38;2;138;43;226m[ansibleRun.Checkout] INFO: Checking out ${git_url} \"${git_branch}\" \033[0m")
                 script {
                     try {
                         checkout scmGit(
@@ -29,7 +29,7 @@ pipeline {
                             ]]
                         )
                     } catch (Exception e) {
-                        println("\033[38;2;255;0;0m[ansibleRun.Checkout] Error checking out ${git_url} \"${git_branch}\" \033[0m")
+                        println("\033[38;2;255;0;0m[ansibleRun.Checkout] ERROR: checking out ${git_url} \"${git_branch}\" \033[0m")
                         throw e
                     }
                 }
