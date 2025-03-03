@@ -15,7 +15,7 @@ pipeline{
     }
     post {
         always {
-            cleanWs()
+            deleteDir()
             dir("workdir") {
                 deleteDir()
             }
