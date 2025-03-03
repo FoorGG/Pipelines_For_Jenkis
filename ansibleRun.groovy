@@ -1,4 +1,4 @@
-def str = ENV.STRING
+def str = env.STRING
 
 pipeline{
 
