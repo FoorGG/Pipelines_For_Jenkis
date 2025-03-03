@@ -1,20 +1,8 @@
-public class OtusLibrary {
+#!/usr/bin/env groovy
 
-    public boolean checkAnsible() {
-
-        boolean isInstalled;
-
-        try {
-            sh 'ansible --version'
-            isInstalled = true
-        } catch (Exception e) {
-            isInstalled = false
-        }
-
-        return isInstalled;
+class OtusLibrary {
+    def checkAnsible() {
+        def result = sh(script: 'ansible --version', returnStatus: true)
+        return result == 0
     }
-
-
-
-
 }
