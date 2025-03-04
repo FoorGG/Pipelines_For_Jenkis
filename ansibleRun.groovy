@@ -27,7 +27,7 @@ pipeline {
                 script {
                     try {
                         checkout scmGit(
-                            branches: [[name: '${git_branch}']], 
+                            branches: [[name: "${git_branch}"]], 
                             userRemoteConfigs: [[
                                 url: "${git_url}",
                                 credentialsId: "${git_credentials}"
