@@ -6,7 +6,7 @@ String ansible_playbook = env.ANSIBLE_PLAYBOOK
 String ansible_inventory = env.ANSIBLE_INVENTORY
 String ansible_cfg = env.ANSIBLE_CFG
 String ansible_path = env.ANSIBLE_PATH
-
+String ansible_password = env.ANSIBLE_PASSWORD
 library identifier: 'OtusLibrary@main', 
         retriever: modernSCM([
             $class: 'GitSCMSource',
@@ -77,7 +77,8 @@ pipeline {
                     
                     def result = otusLib.runPlaybook(
                         playbook: "${ansible_path}/${ansible_playbook}",
-                        inventory: "${ansible_path}/${ansible_inventory}"
+                        inventory: "${ansible_path}/${ansible_inventory}",
+                        password: "${ansible_password}",
                     )
 
                     if (!result) {
