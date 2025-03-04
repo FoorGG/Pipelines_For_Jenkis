@@ -83,7 +83,7 @@ class OtusLibraryImpl implements Serializable {
             script.sh "cat ${config.inventory}"
             
             def cmd = [
-                'ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook',
+                'ANSIBLE_HOST_KEY_CHECKING=False REMOTE_USER=povarincev-av ansible-playbook',
                 config.playbook,
                 "-i ${config.inventory}",
                 '--connection=ssh',
