@@ -2,6 +2,10 @@ String library_url = env.LIBRARY_URL
 String git_url = env.GIT_URL
 String git_branch = env.GIT_BRANCH
 String git_credentials = env.GIT_CREDENTIALS
+String ansible_playbook = env.ANSIBLE_PLAYBOOK
+String ansible_inventory = env.ANSIBLE_INVENTORY
+String ansible_cfg = env.ANSIBLE_CFG
+String ansible_path = env.ANSIBLE_PATH
 
 library identifier: 'OtusLibrary@main', 
         retriever: modernSCM([
@@ -52,18 +56,36 @@ pipeline {
                     
 
                     def requiredFiles = [
-                        'hosts.ini',
-                        'site.yml',
-                        'ansible.cfg'
+                        "${ansible_inventory}",
+                        "${ansible_playbook}",
+                        "${ansible_cfg}"
                     ]
                     
-                    if (!otusLib.checkDirectory('ansible', requiredFiles)) {
+                    if (!otusLib.checkDirectory("${ansible_path}", requiredFiles)) {
                         error("Required Ansible files are missing")
                     }
                 }
             }
         }
 
+        stage('Run Ansible') {
+            steps {
+                script {
+
+                    def otusLib = OtusLibrary(this)
+                    
+                    
+                    def result = otusLib.runPlaybook(
+                        playbook: "${ansible_path}/${ansible_playbook}",
+                        inventory: "${ansible_path}/${ansible_inventory}"
+                    )
+
+                    if (!result) {
+                        error("Ansible playbook execution failed")
+                    }
+                }
+            }
+        }
     }
     post {
         always {

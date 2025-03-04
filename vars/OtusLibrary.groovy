@@ -72,6 +72,71 @@ class OtusLibraryImpl implements Serializable {
             return false
         }
     }
+
+    def runPlaybook(Map config) {
+        script.sh "echo '\033[38;2;138;43;226m[OtusLibrary] Starting Ansible playbook execution...\033[0m'"
+        
+        try {
+            // Проверяем обязательные параметры
+            if (!config.playbook) {
+                script.sh "echo '\033[38;2;255;0;0m[OtusLibrary] Error: playbook path is required\033[0m'"
+                return false
+            }
+
+            if (!config.inventory) {
+                script.sh "echo '\033[38;2;255;0;0m[OtusLibrary] Error: inventory path is required\033[0m'"
+                return false
+            }
+
+            // Формируем команду
+            def cmd = [
+                'ansible-playbook',
+                config.playbook,
+                "-i ${config.inventory}"
+            ]
+
+            // Добавляем опциональные параметры
+            if (config.tags) {
+                cmd.add("--tags '${config.tags}'")
+            }
+
+            if (config.extraVars) {
+                cmd.add("--extra-vars '${config.extraVars}'")
+            }
+
+            if (config.limit) {
+                cmd.add("--limit '${config.limit}'")
+            }
+
+            if (config.verbose) {
+                cmd.add('-v')
+            }
+
+            if (config.checkMode) {
+                cmd.add('--check')
+            }
+
+            // Выполняем команду
+            script.sh "echo '\033[38;2;138;43;226m[OtusLibrary] Executing: ${cmd.join(' ')}\033[0m'"
+            
+            def result = script.sh(
+                script: cmd.join(' '),
+                returnStatus: true
+            )
+
+            if (result == 0) {
+                script.sh "echo '\033[38;2;138;43;226m[OtusLibrary] Playbook execution completed successfully\033[0m'"
+                return true
+            } else {
+                script.sh "echo '\033[38;2;255;0;0m[OtusLibrary] Playbook execution failed with code: ${result}\033[0m'"
+                return false
+            }
+
+        } catch (Exception e) {
+            script.sh "echo '\033[38;2;255;0;0m[OtusLibrary] Error executing playbook: ${e.getMessage()}\033[0m'"
+            return false
+        }
+    }
 }
 
 def call(script) {
