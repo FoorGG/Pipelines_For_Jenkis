@@ -74,7 +74,7 @@ class OtusLibraryImpl implements Serializable {
     }
 
     def runPlaybook(Map config) {
-        script.sh "echo '\033[38;2;138;43;226m[OtusLibrary] Starting Ansible playbook execution...\033[0m'"
+        script.sh "echo '\033[38;2;138;43;226m[OtusLibrary.runPlaybook] INFO: Starting Ansible playbook execution...\033[0m'"
         
         try {
             def cmd = [
@@ -84,8 +84,6 @@ class OtusLibraryImpl implements Serializable {
                 '--connection=ssh',
                 '--ssh-extra-args="-o StrictHostKeyChecking=no"'
             ]
-
-            script.sh "echo '\033[38;2;138;43;226m[OtusLibrary] Executing: ${cmd.join(' ')}\033[0m'"
             
             def result = script.sh(
                 script: cmd.join(' '),
@@ -93,15 +91,15 @@ class OtusLibraryImpl implements Serializable {
             )
 
             if (result == 0) {
-                script.sh "echo '\033[38;2;138;43;226m[OtusLibrary] Playbook execution completed successfully\033[0m'"
+                script.sh "echo '\033[38;2;138;43;226m[OtusLibrary.runPlaybook] INFO: Playbook execution completed successfully\033[0m'"
                 return true
             } else {
-                script.sh "echo '\033[38;2;255;0;0m[OtusLibrary] Playbook execution failed with code: ${result}\033[0m'"
+                script.sh "echo '\033[38;2;255;0;0m[OtusLibrary.runPlaybook] ERROR: Playbook execution failed with code: ${result}\033[0m'"
                 return false
             }
 
         } catch (Exception e) {
-            script.sh "echo '\033[38;2;255;0;0m[OtusLibrary] Error executing playbook: ${e.getMessage()}\033[0m'"
+            script.sh "echo '\033[38;2;255;0;0m[OtusLibrary.runPlaybook] ERROR: Error executing playbook: ${e.getMessage()}\033[0m'"
             return false
         }
     }
