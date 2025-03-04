@@ -80,7 +80,9 @@ class OtusLibraryImpl implements Serializable {
             def cmd = [
                 'ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook',
                 config.playbook,
-                "-i ${config.inventory}"
+                "-i ${config.inventory}",
+                '--connection=ssh',
+                '--ssh-extra-args="-o StrictHostKeyChecking=no"'
             ]
 
             script.sh "echo '\033[38;2;138;43;226m[OtusLibrary] Executing: ${cmd.join(' ')}\033[0m'"
