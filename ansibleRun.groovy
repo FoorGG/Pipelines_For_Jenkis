@@ -1,5 +1,4 @@
-String library_url = 'https://github.com/FoorGG/Pipelines_For_Jenkis.git'
-
+String library_url = env.LIBRARY_URL
 String git_url = env.GIT_URL
 String git_branch = env.GIT_BRANCH
 String git_credentials = env.GIT_CREDENTIALS
