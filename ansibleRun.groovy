@@ -77,7 +77,7 @@ pipeline {
                     
                     def result = otusLib.runPlaybook(
                         playbook: "${ansible_path}/${ansible_playbook}",
-                        inventory: "${ansible_path}/${ansible_inventory}"
+                        inventory: "${ansible_inventory}"
                     )
 
                     if (!result) {

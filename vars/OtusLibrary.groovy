@@ -78,7 +78,7 @@ class OtusLibraryImpl implements Serializable {
         
         try {
             def cmd = [
-                'ansible-playbook',
+                'ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook',
                 config.playbook,
                 "-i ${config.inventory}"
             ]
