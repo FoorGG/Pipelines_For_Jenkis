@@ -41,28 +41,30 @@ pipeline {
             }
         }
         
-        stage('Ansible Checkout') {
+        stage('Check Environment') {
             steps {
-                println("\033[38;2;138;43;226m[ansibleRun.Stage(\'Ansible Checkout\')] Проверка Ansible\033[0m")
                 script {
-                    try {
-                        def otusLib = OtusLibrary(this)
-                        
-                        if (otusLib.checkAnsible()) {
-                            println("\033[38;2;138;43;226m[Pipeline] Ansible is installed\033[0m")
-                           
-                        } else {
-                            println("\033[38;2;255;0;0m[Pipeline] Ansible is not installed\033[0m")
-                            error("Ansible is not installed")
-                        }
-                    } catch (Exception e) {
-                        println("\033[38;2;255;0;0m[Pipeline] ERROR: ${e.getMessage()}\033[0m")
-                        throw e
+                    def otusLib = OtusLibrary(this)
+                    
+
+                    if (!otusLib.checkAnsible()) {
+                        error("Ansible is not installed")
+                    }
+                    
+
+                    def requiredFiles = [
+                        'hosts.ini',
+                        'site.yml',
+                        'ansible.cfg'
+                    ]
+                    
+                    if (!otusLib.checkDirectory('ansible', requiredFiles)) {
+                        error("Required Ansible files are missing")
                     }
                 }
             }
         }
-    }
+
     
     post {
         always {

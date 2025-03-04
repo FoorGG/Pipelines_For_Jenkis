@@ -8,15 +8,69 @@ class OtusLibraryImpl implements Serializable {
     }
 
     def checkAnsible() {
+
+        println("\033[38;2;138;43;226m[OtusLibrary] INFO: Starting Ansible check...\033[0m")
         try {
             def result = script.sh(script: 'ansible --version', returnStatus: true)
             
             if (result == 0) {
+                println("\033[38;2;138;43;226m[OtusLibrary] INFO: Ansible check passed\033[0m")
                 return true
             } else {
+                println("\033[38;2;255;0;0m[OtusLibrary] ERROR: Ansible check failed with code: ${result}\033[0m")
                 return false
             }
         } catch (Exception e) {
+            println("\033[38;2;255;0;0m[OtusLibrary] ERROR: checking Ansible: ${e.getMessage()}\033[0m")
+            return false
+        }
+    }
+
+    def checkDirectory(String path, List<String> requiredFiles = []) {
+        println("\033[38;2;138;43;226m[OtusLibrary.checkDirectory] INFO: Checking directory: ${path}\033[0m")
+        try {
+
+            def dirExists = script.sh(
+                script: "test -d ${path}",
+                returnStatus: true
+            ) == 0
+
+            if (!dirExists) {
+                println("\033[38;2;255;0;0m[OtusLibrary.checkDirectory] ERROR: Directory ${path} does not exist\033[0m")
+                return false
+            }
+
+            if (requiredFiles.isEmpty()) {
+                println("\033[38;2;138;43;226m[OtusLibrary.checkDirectory] ERROR: Variable requiredFiles is empty\033[0m")
+                return true
+            }
+
+            def missingFiles = []
+            requiredFiles.each { file ->
+                def filePath = "${path}/${file}"
+                def fileExists = script.sh(
+                    script: "test -f ${filePath}",
+                    returnStatus: true
+                ) == 0
+
+                if (!fileExists) {
+                    missingFiles.add(file)
+                    println("\033[38;2;255;0;0m[OtusLibrary.checkDirectory] ERROR: File not found: ${filePath}\033[0m")
+                } else {
+                    println("\033[38;2;138;43;226m[OtusLibrary.checkDirectory] INFO: File found: ${filePath}\033[0m")
+                }
+            }
+
+            if (missingFiles.isEmpty()) {
+                println("\033[38;2;138;43;226m[OtusLibrary.checkDirectory] INFO: All required files found in ${path}\033[0m")
+                return true
+            } else {
+                println("\033[38;2;255;0;0m[OtusLibrary.checkDirectory] ERROR: Missing files in ${path}: ${missingFiles.join(', ')}\033[0m")
+                return false
+            }
+
+        } catch (Exception e) {
+            println("\033[38;2;255;0;0m[OtusLibrary.checkDirectory] ERROR: checking directory: ${e.getMessage()}\033[0m")
             return false
         }
     }
