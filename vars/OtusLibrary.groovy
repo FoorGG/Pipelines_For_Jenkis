@@ -25,18 +25,10 @@ class OtusLibraryImpl implements Serializable {
         }
     }
 
-    def checkDirectory(String path, List<String> requiredFiles = []) {
+    def checkDirectory(List<String> requiredFiles = []) {
         script.sh "echo '\033[38;2;138;43;226m[OtusLibrary.checkDirectory] INFO: Checking directory: ${path}\033[0m'"
         try {
-            def dirExists = script.sh(
-                script: "test -d ${path}",
-                returnStatus: true
-            ) == 0
-
-            if (!dirExists) {
-                script.sh "echo '\033[38;2;255;0;0m[OtusLibrary.checkDirectory] ERROR: Directory ${path} does not exist\033[0m'"
-                return false
-            }
+            
 
             if (requiredFiles.isEmpty()) {
                 script.sh "echo '\033[38;2;138;43;226m[OtusLibrary.checkDirectory] ERROR: Directory is empty\033[0m'"
@@ -45,20 +37,13 @@ class OtusLibraryImpl implements Serializable {
 
             def missingFiles = []
             requiredFiles.each { file ->
-                def fileExists
-                def filePath
-                if (file == 'ansible.cfg') {
-                        fileExists = script.sh(
-                        script: "test -f ${file}",
-                        returnStatus: true
-                    ) == 0
-                } else {
-                        filePath = "${path}/${file}"
-                        fileExists = script.sh(
-                        script: "test -f ${filePath}",
-                        returnStatus: true
-                    ) == 0
-                }
+               
+                def filePath = "${path}/${file}"
+                def fileExists = script.sh(
+                script: "test -f ${filePath}",
+                returnStatus: true
+                ) == 0
+        
 
                 if (!fileExists) {
                     missingFiles.add(file)
