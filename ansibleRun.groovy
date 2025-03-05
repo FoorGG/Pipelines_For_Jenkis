@@ -62,7 +62,7 @@ pipeline {
                         "${ansible_cfg}"
                     ]
                     
-                    if (!otusLib.checkDirectory("${ansible_path}", requiredFiles)) {
+                    if (!otusLib.checkDirectory(requiredFiles)) {
                         error("Required Ansible files are missing")
                     }
                 }
