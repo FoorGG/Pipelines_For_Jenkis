@@ -63,6 +63,7 @@ pipeline {
         stage('Run Ansible') {
             steps {
                 script {
+                    def otusLib = OtusLibrary(this)
                     if (ansible_path.isEmpty()) {
                         otusLib.ansibleRun(ansible_playbook, ansible_inventory, ansible_credentials)
                     } else {
