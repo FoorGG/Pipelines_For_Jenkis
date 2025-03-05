@@ -24,6 +24,36 @@ class OtusLibraryImpl implements Serializable {
             return false
         }
     }
+
+    def ansibleRun(String playbook, String inventory, String credentials) {
+
+        ansiblePlaybook(
+            playbook: "${ansible_playbook}",
+            inventory: "${ansible_inventory}",
+            credentialsId: "${ansible_credentials}",
+            colorized: true,
+            extras: '--ssh-extra-args="-o StrictHostKeyChecking=no -o ConnectTimeout=60 -o ServerAliveInterval=30" --forks=5',
+            extraVars: [
+                ansible_connection: 'ssh',
+                ansible_become_password: "${ansible_become_password}"
+            ]
+        )
+    }
+
+    def ansibleRun(String playbook, String inventory, String credentials, String path) {
+        ansiblePlaybook(
+            playbook: "${path}/${playbook}",
+            inventory: "${path}/${inventory}",
+            credentialsId: "${credentials}",
+            colorized: true,
+            extras: '--ssh-extra-args="-o StrictHostKeyChecking=no -o ConnectTimeout=60 -o ServerAliveInterval=30" --forks=5',
+            extraVars: [
+                    ansible_connection: 'ssh',
+                    ansible_become_password: "${ansible_become_password}"
+            ]
+        )
+    }
+        
 }
 
 def call(script) {
