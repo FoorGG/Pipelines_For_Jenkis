@@ -89,7 +89,8 @@ class OtusLibraryImpl implements Serializable {
                 '--connection=ssh',
                 '--ssh-extra-args="-o StrictHostKeyChecking=no"',
                 "--extra-vars",
-                "'ansible_password=${config.password} ansible_become_password=${config.password}'"
+                "'ansible_password=${config.password} ansible_become_password=${config.password}'",
+                "-u povarincev-av"
             ]
             
             def result = script.sh(
