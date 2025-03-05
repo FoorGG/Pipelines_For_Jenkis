@@ -18,14 +18,14 @@ class OtusLibraryImpl implements Serializable {
 
     def checkAnsible() {
         
-        script.sh "echo '\033[38;2;138;43;226m[OtusLibrary.checkAnsible] INFO: Starting Ansible check...\033[0m'"
+        script.sh "echo '\033[38;2;0;0;255m[OtusLibrary.checkAnsible] INFO: Starting Ansible check...\033[0m'"
         try {
 
             def result = script.sh(script: 'ansible --version', returnStatus: true)
             
             if (result == 0) {
 
-                script.sh "echo '\033[38;2;138;43;226m[OtusLibrary.checkAnsible] INFO: Ansible check passed\033[0m'"
+                script.sh "echo '\033[38;2;0;0;255m[OtusLibrary.checkAnsible] INFO: Ansible check passed\033[0m'"
                 return true
             
             } else {

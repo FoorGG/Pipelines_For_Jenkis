@@ -28,7 +28,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                println("\033[38;2;138;43;226m[ansibleRun.Checkout] INFO: Checking out ${git_url} \"${git_branch}\" \033[0m")
+                println("\033[38;2;0;0;255m[ansibleRun.Checkout] INFO: Checking out ${git_url} \"${git_branch}\" \033[0m")
                 script {
                     try {
                         checkout scmGit(
@@ -67,12 +67,12 @@ pipeline {
                     def otusLib = OtusLibrary(this)
 
                     if (ansible_path.isEmpty()) {
-                        println("\033[38;2;138;43;226m[Run Ansible.runAnsible] INFO: Running ansible playbook ${ansible_playbook} with inventory ${ansible_inventory} and credentials ******** and become password ********\033[0m")
+                        println("\033[38;2;0;0;255m[Run Ansible.runAnsible] INFO: Running ansible playbook ${ansible_playbook} with inventory ${ansible_inventory} and credentials ******** and become password ********\033[0m")
                         otusLib.runAnsible(ansible_playbook, ansible_inventory, ansible_credentials, ansible_become_password)
                     
                     } else {
 
-                        println("\033[38;2;138;43;226m[Run Ansible.runAnsible] INFO: Running ansible playbook ${ansible_playbook} with inventory ${ansible_inventory} and credentials ********** and become password ******** and path ${ansible_path}\033[0m")
+                        println("\033[38;2;0;0;255m[Run Ansible.runAnsible] INFO: Running ansible playbook ${ansible_playbook} with inventory ${ansible_inventory} and credentials ********** and become password ******** and path ${ansible_path}\033[0m")
                         otusLib.runAnsible(ansible_playbook, ansible_inventory, ansible_credentials, ansible_become_password, ansible_path)
                     
                     }
