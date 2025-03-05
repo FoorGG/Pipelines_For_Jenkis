@@ -65,9 +65,9 @@ pipeline {
                 script {
                     def otusLib = OtusLibrary(this)
                     if (ansible_path.isEmpty()) {
-                        otusLib.ansibleRun(ansible_playbook, ansible_inventory, ansible_credentials)
+                        otusLib.ansibleRun(ansible_playbook, ansible_inventory, ansible_credentials, ansible_become_password)
                     } else {
-                        otusLib.ansibleRun(ansible_playbook, ansible_inventory, ansible_credentials, ansible_path)
+                        otusLib.ansibleRun(ansible_playbook, ansible_inventory, ansible_credentials, ansible_become_password, ansible_path)
                     }
                 }
             }

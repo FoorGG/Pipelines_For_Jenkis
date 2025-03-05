@@ -25,31 +25,43 @@ class OtusLibraryImpl implements Serializable {
         }
     }
 
-    def ansibleRun(String playbook, String inventory, String credentials) {
+    def ansibleRun(String playbook, String inventory, String credentials, String become_password) {
+
+        this.playbook = playbook
+        this.inventory = inventory
+        this.credentials = credentials
+        this.become_password = become_password
 
         ansiblePlaybook(
-            playbook: "${ansible_playbook}",
-            inventory: "${ansible_inventory}",
-            credentialsId: "${ansible_credentials}",
+            playbook: "${this.playbook}",
+            inventory: "${this.inventory}",
+            credentialsId: "${this.credentials}",
             colorized: true,
             extras: '--ssh-extra-args="-o StrictHostKeyChecking=no -o ConnectTimeout=60 -o ServerAliveInterval=30" --forks=5',
             extraVars: [
                 ansible_connection: 'ssh',
-                ansible_become_password: "${ansible_become_password}"
+                ansible_become_password: "${this.become_password}"
             ]
         )
     }
 
-    def ansibleRun(String playbook, String inventory, String credentials, String path) {
+    def ansibleRun(String playbook, String inventory, String credentials, String become_password, String path) {
+        
+        this.playbook = playbook
+        this.inventory = inventory
+        this.credentials = credentials
+        this.become_password = become_password
+        this.path = path
+
         ansiblePlaybook(
-            playbook: "${path}/${playbook}",
-            inventory: "${path}/${inventory}",
-            credentialsId: "${credentials}",
+            playbook: "${this.path}/${this.playbook}",
+            inventory: "${this.path}/${this.inventory}",
+            credentialsId: "${this.credentials}",
             colorized: true,
             extras: '--ssh-extra-args="-o StrictHostKeyChecking=no -o ConnectTimeout=60 -o ServerAliveInterval=30" --forks=5',
             extraVars: [
-                    ansible_connection: 'ssh',
-                    ansible_become_password: "${ansible_become_password}"
+                ansible_connection: 'ssh',
+                ansible_become_password: "${this.become_password}"
             ]
         )
     }
