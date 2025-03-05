@@ -4,6 +4,12 @@ class OtusLibraryImpl implements Serializable {
     def script
 
     OtusLibraryImpl(script) {
+        def playbook
+        def inventory
+        def credentials
+        def become_password
+        def path
+        
         this.script = script
     }
 
@@ -46,7 +52,7 @@ class OtusLibraryImpl implements Serializable {
     }
 
     def ansibleRun(String playbook, String inventory, String credentials, String become_password, String path) {
-        
+
         this.playbook = playbook
         this.inventory = inventory
         this.credentials = credentials
