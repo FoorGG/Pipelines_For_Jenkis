@@ -51,14 +51,19 @@ pipeline {
                 script {
                     def otusLib = OtusLibrary(this)
                     
-                    // Проверяем наличие необходимых файлов
+
+                    if (!otusLib.checkAnsible()) {
+                        error("Ansible is not installed")
+                    }
+                    
+
                     def requiredFiles = [
-                        'inventory.yml',
-                        'playbook.yml',
-                        'ansible.cfg'
+                        "${ansible_inventory}",
+                        "${ansible_playbook}",
+                        "${ansible_cfg}"
                     ]
                     
-                    if (!otusLib.checkDirectory('ansible', requiredFiles)) {
+                    if (!otusLib.checkDirectory("${ansible_path}", requiredFiles)) {
                         error("Required Ansible files are missing")
                     }
                 }
@@ -68,14 +73,16 @@ pipeline {
         stage('Run Ansible') {
             steps {
                 script {
+
                     def otusLib = OtusLibrary(this)
-                    def result = otusLib.runPlaybook(
-                        playbook: 'ansible/site.yml',
-                        inventory: 'ansible/hosts.ini',
-                        password: 'ssh_password',
-                        becomePassword: 'sudo_password'
-                    )
                     
+                    
+                    def result = otusLib.runPlaybook(
+                        playbook: "${ansible_path}/${ansible_playbook}",
+                        inventory: "${ansible_path}/${ansible_inventory}",
+                        password: "${ansible_password}",
+                    )
+
                     if (!result) {
                         error("Ansible playbook execution failed")
                     }
