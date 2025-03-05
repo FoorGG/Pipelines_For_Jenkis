@@ -77,7 +77,7 @@ pipeline {
                             'ansible-playbook',
                             "ansible/${ansible_playbook}",
                             "-i ansible/${ansible_inventory}",
-                            "-e \"ansible_password=123456789 ansible_become_password=123456789\""
+                            "-e \"ansible_password=${ansible_password} ansible_become_password=${ansible_password}\""
                         ]
                         
                         sh "echo '\033[38;2;138;43;226m[Pipeline] Starting Ansible playbook execution...\033[0m'"
