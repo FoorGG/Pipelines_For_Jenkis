@@ -71,7 +71,7 @@ class OtusLibraryImpl implements Serializable {
                 ansible_connection: 'ssh',
                 ansible_become_password: "${this.become_password}"
             ]
-        )
+        )   
     }
         
 }

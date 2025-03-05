@@ -64,10 +64,16 @@ pipeline {
             steps {
                 script {
                     def otusLib = OtusLibrary(this)
+
                     if (ansible_path.isEmpty()) {
+                        println("\033[38;2;138;43;226m[Run Ansible.runAnsible] INFO: Running ansible playbook ${ansible_playbook} with inventory ${ansible_inventory} and credentials ${ansible_credentials} and become password ${ansible_become_password}\033[0m")
                         otusLib.runAnsible(ansible_playbook, ansible_inventory, ansible_credentials, ansible_become_password)
+                    
                     } else {
+
+                        println("\033[38;2;138;43;226m[Run Ansible.runAnsible] INFO: Running ansible playbook ${ansible_playbook} with inventory ${ansible_inventory} and credentials ${ansible_credentials} and become password ${ansible_become_password} and path ${ansible_path}\033[0m")
                         otusLib.runAnsible(ansible_playbook, ansible_inventory, ansible_credentials, ansible_become_password, ansible_path)
+                    
                     }
                 }
             }
