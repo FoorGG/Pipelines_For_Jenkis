@@ -81,7 +81,7 @@ pipeline {
                             'ANSIBLE_CONNECT_TIMEOUT=30',
                             'ansible-playbook',
                             'ansible/site.yml',
-                            '-i hosts.ini',
+                            '-i ansible/hosts.ini',
                             '--connection=ssh',
                             '--ssh-extra-args="-o StrictHostKeyChecking=no -o ConnectTimeout=60 -o ServerAliveInterval=30"',
                             '--extra-vars',
