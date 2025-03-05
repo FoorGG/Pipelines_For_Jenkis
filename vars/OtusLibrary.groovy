@@ -25,44 +25,44 @@ class OtusLibraryImpl implements Serializable {
         }
     }
 
-    def checkDirectory(List<String> requiredFiles = []) {
-        script.sh "echo '\033[38;2;138;43;226m[OtusLibrary.checkDirectory] INFO: Checking directory: ${path}\033[0m'"
+    def checkDirectory(List<String> requiredFiles) {
+        script.sh "echo '\033[38;2;138;43;226m[OtusLibrary] Checking files...\033[0m'"
         try {
-            
-
-            if (requiredFiles.isEmpty()) {
-                script.sh "echo '\033[38;2;138;43;226m[OtusLibrary.checkDirectory] ERROR: Directory is empty\033[0m'"
-                return true
-            }
-
+            // Проверяем наличие каждого файла
             def missingFiles = []
             requiredFiles.each { file ->
-               
-                def filePath = "${path}/${file}"
-                def fileExists = script.sh(
-                script: "test -f ${filePath}",
-                returnStatus: true
+                def filePath
+                def fileExists
+                
+                if (file == 'hosts.ini') {
+                    filePath = file
+                } else {
+                    filePath = "ansible/${file}"
+                }
+                
+                fileExists = script.sh(
+                    script: "test -f ${filePath}",
+                    returnStatus: true
                 ) == 0
-        
 
                 if (!fileExists) {
                     missingFiles.add(file)
-                    script.sh "echo '\033[38;2;255;0;0m[OtusLibrary.checkDirectory] ERROR: File ${file} not found: ${filePath}\033[0m'"
+                    script.sh "echo '\033[38;2;255;0;0m[OtusLibrary] File not found: ${filePath}\033[0m'"
                 } else {
-                    script.sh "echo '\033[38;2;138;43;226m[OtusLibrary.checkDirectory] INFO: File ${file} found: ${filePath}\033[0m'"
+                    script.sh "echo '\033[38;2;138;43;226m[OtusLibrary] File found: ${filePath}\033[0m'"
                 }
             }
 
             if (missingFiles.isEmpty()) {
-                script.sh "echo '\033[38;2;138;43;226m[OtusLibrary.checkDirectory] INFO: All required files found in ${path}\033[0m'"
+                script.sh "echo '\033[38;2;138;43;226m[OtusLibrary] All required files found\033[0m'"
                 return true
             } else {
-                script.sh "echo '\033[38;2;255;0;0m[OtusLibrary.checkDirectory] ERROR: Missing files in ${path}: ${missingFiles.join(', ')}\033[0m'"
+                script.sh "echo '\033[38;2;255;0;0m[OtusLibrary] Missing files: ${missingFiles.join(', ')}\033[0m'"
                 return false
             }
 
         } catch (Exception e) {
-            script.sh "echo '\033[38;2;255;0;0m[OtusLibrary.checkDirectory] ERROR: checking directory: ${e.getMessage()}\033[0m'"
+            script.sh "echo '\033[38;2;255;0;0m[OtusLibrary] Error checking files: ${e.getMessage()}\033[0m'"
             return false
         }
     }
