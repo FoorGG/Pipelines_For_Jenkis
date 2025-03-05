@@ -6,7 +6,7 @@ String ansible_playbook = env.ANSIBLE_PLAYBOOK
 String ansible_inventory = env.ANSIBLE_INVENTORY
 String ansible_cfg = env.ANSIBLE_CFG
 String ansible_path = env.ANSIBLE_PATH
-String ansible_password = env.ANSIBLE_PASSWORD
+String ansible_become_password = env.ANSIBLE_BECOME_PASSWORD
 String ansible_credentials = env.ANSIBLE_CREDENTIALS
 
 library identifier: 'OtusLibrary@main', 
@@ -80,7 +80,7 @@ pipeline {
                     extras: '--ssh-extra-args="-o StrictHostKeyChecking=no -o ConnectTimeout=60 -o ServerAliveInterval=30" --forks=5',
                     extraVars: [
                         ansible_connection: 'ssh',
-                        ansible_become_password: "${ansible_password}"
+                        ansible_become_password: "${ansible_become_password}"
                     ]
                 )
             }
