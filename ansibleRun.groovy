@@ -73,18 +73,37 @@ pipeline {
         stage('Run Ansible') {
             steps {
                 script {
+                    try {
+                        def cmd = [
+                            'ANSIBLE_HOST_KEY_CHECKING=False',
+                            'ANSIBLE_TIMEOUT=30',
+                            'ANSIBLE_SSH_TIMEOUT=30',
+                            'ANSIBLE_CONNECT_TIMEOUT=30',
+                            'ansible-playbook',
+                            'ansible/site.yml',
+                            '-i hosts.ini',
+                            '--connection=ssh',
+                            '--ssh-extra-args="-o StrictHostKeyChecking=no -o ConnectTimeout=60 -o ServerAliveInterval=30"',
+                            '--extra-vars',
+                            "'ansible_password=${params.SSH_PASSWORD} ansible_become_password=${params.SUDO_PASSWORD}'",
+                            '--timeout=30',
+                            '--forks=1'
+                        ]
+                        
+                        sh "echo '\033[38;2;138;43;226m[Pipeline] Starting Ansible playbook execution...\033[0m'"
+                        sh "echo '\033[38;2;138;43;226m[Pipeline] Executing: ${cmd.join(' ')}\033[0m'"
+                        
+                        def result = sh(
+                            script: cmd.join(' '),
+                            returnStatus: true
+                        )
 
-                    def otusLib = OtusLibrary(this)
-                    
-                    
-                    def result = otusLib.runPlaybook(
-                        playbook: "${ansible_path}/${ansible_playbook}",
-                        inventory: "${ansible_path}/${ansible_inventory}",
-                        password: "${ansible_password}",
-                    )
-
-                    if (!result) {
-                        error("Ansible playbook execution failed")
+                        if (result != 0) {
+                            error("Ansible playbook execution failed with code: ${result}")
+                        }
+                        
+                    } catch (Exception e) {
+                        error("Error executing playbook: ${e.getMessage()}")
                     }
                 }
             }
