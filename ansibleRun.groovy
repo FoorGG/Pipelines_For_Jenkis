@@ -16,15 +16,14 @@ library identifier: 'OtusLibrary@main',
         ])
 
 pipeline {
-
     agent any
-
+    
     options {
         ansiColor('xterm')
         timeout(time: 15, unit: 'MINUTES')
         timestamps()
     }
-
+    
     stages {
         stage('Checkout') {
             steps {
@@ -63,21 +62,21 @@ pipeline {
                         "${ansible_cfg}"
                     ]
                     
-                    if (!otusLib.checkDirectory("requiredFiles") {
+                    if (!otusLib.checkDirectory("${ansible_path}", requiredFiles)) {
                         error("Required Ansible files are missing")
                     }
                 }
             }
         }
-
+        
         stage('Run Ansible') {
             steps {
                 script {
                     try {
                         def cmd = [
                             'ansible-playbook',
-                            "${ansible_playbook}",
-                            "-i ${ansible_inventory}",
+                            "ansible/${ansible_playbook}",
+                            "-i ansible/${ansible_inventory}",
                             // '--extra-vars',
                             // "\"ansible_password=${ansible_password} ansible_become_password=${ansible_password}\"",
                         ]
@@ -93,7 +92,6 @@ pipeline {
                         if (result != 0) {
                             error("Ansible playbook execution failed with code: ${result}")
                         }
-                        
                     } catch (Exception e) {
                         error("Error executing playbook: ${e.getMessage()}")
                     }
@@ -101,6 +99,7 @@ pipeline {
             }
         }
     }
+    
     post {
         always {
             deleteDir()
@@ -109,5 +108,4 @@ pipeline {
             }
         }
     }
-    
 }
