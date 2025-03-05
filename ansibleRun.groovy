@@ -63,7 +63,7 @@ pipeline {
                         "${ansible_cfg}"
                     ]
                     
-                    if (!otusLib.checkDirectory("${ansible_path}", requiredFiles)) {
+                    if (!otusLib.checkDirectory("requiredFiles") {
                         error("Required Ansible files are missing")
                     }
                 }
@@ -76,8 +76,8 @@ pipeline {
                     try {
                         def cmd = [
                             'ansible-playbook',
-                            "ansible/${ansible_playbook}",
-                            "-i ansible/${ansible_inventory}",
+                            "${ansible_playbook}",
+                            "-i ${ansible_inventory}",
                             // '--extra-vars',
                             // "\"ansible_password=${ansible_password} ansible_become_password=${ansible_password}\"",
                         ]
