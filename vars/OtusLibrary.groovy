@@ -31,14 +31,10 @@ class OtusLibraryImpl implements Serializable {
             // Проверяем наличие каждого файла
             def missingFiles = []
             requiredFiles.each { file ->
-                def filePath
+                def filePath = "${file}"
                 def fileExists
                 
-                if (file == 'hosts.ini') {
-                    filePath = file
-                } else {
-                    filePath = "ansible/${file}"
-                }
+               
                 
                 fileExists = script.sh(
                     script: "test -f ${filePath}",
