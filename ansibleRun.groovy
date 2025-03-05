@@ -62,30 +62,32 @@ pipeline {
         
         stage('Run Ansible') {
             steps {
-                if (ansible_path.isEmpty()) {
-                    ansiblePlaybook(
-                        playbook: "${ansible_playbook}",
-                        inventory: "${ansible_inventory}",
-                        credentialsId: "${ansible_credentials}",
-                        colorized: true,
-                        extras: '--ssh-extra-args="-o StrictHostKeyChecking=no -o ConnectTimeout=60 -o ServerAliveInterval=30" --forks=5',
-                        extraVars: [
-                            ansible_connection: 'ssh',
-                            ansible_become_password: "${ansible_become_password}"
-                        ]
-                    )
-                } else {
-                    ansiblePlaybook(
-                        playbook: "${ansible_path}/${ansible_playbook}",
-                        inventory: "${ansible_path}/${ansible_inventory}",
-                        credentialsId: "${ansible_credentials}",
-                        colorized: true,
-                        extras: '--ssh-extra-args="-o StrictHostKeyChecking=no -o ConnectTimeout=60 -o ServerAliveInterval=30" --forks=5',
-                        extraVars: [
-                            ansible_connection: 'ssh',
-                            ansible_become_password: "${ansible_become_password}"
-                        ]
-                    )
+                script {
+                    if (ansible_path.isEmpty()) {
+                        ansiblePlaybook(
+                            playbook: "${ansible_playbook}",
+                            inventory: "${ansible_inventory}",
+                            credentialsId: "${ansible_credentials}",
+                            colorized: true,
+                            extras: '--ssh-extra-args="-o StrictHostKeyChecking=no -o ConnectTimeout=60 -o ServerAliveInterval=30" --forks=5',
+                            extraVars: [
+                                ansible_connection: 'ssh',
+                                ansible_become_password: "${ansible_become_password}"
+                            ]
+                        )
+                    } else {
+                        ansiblePlaybook(
+                            playbook: "${ansible_path}/${ansible_playbook}",
+                            inventory: "${ansible_path}/${ansible_inventory}",
+                            credentialsId: "${ansible_credentials}",
+                            colorized: true,
+                            extras: '--ssh-extra-args="-o StrictHostKeyChecking=no -o ConnectTimeout=60 -o ServerAliveInterval=30" --forks=5',
+                            extraVars: [
+                                ansible_connection: 'ssh',
+                                ansible_become_password: "${ansible_become_password}"
+                            ]
+                        )
+                    }
                 }
             }
         }
