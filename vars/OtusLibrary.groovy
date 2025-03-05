@@ -2,15 +2,16 @@
 
 class OtusLibraryImpl implements Serializable {
     def script
+    def playbook
+    def inventory
+    def credentials
+    def become_password
+    def path
+
 
     OtusLibraryImpl(script) {
 
-        def playbook
-        def inventory
-        def credentials
-        def become_password
-        def path
-
+        
         this.script = script
     }
 
@@ -75,6 +76,11 @@ class OtusLibraryImpl implements Serializable {
         
 }
 
-def call(script) {
+def call(script) {def playbook
+        def inventory
+        def credentials
+        def become_password
+        def path
+
     return new OtusLibraryImpl(script)
 }
