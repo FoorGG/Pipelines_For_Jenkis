@@ -75,19 +75,11 @@ pipeline {
                 script {
                     try {
                         def cmd = [
-                            'ANSIBLE_HOST_KEY_CHECKING=False',
-                            'ANSIBLE_TIMEOUT=30',
-                            'ANSIBLE_SSH_TIMEOUT=30',
-                            'ANSIBLE_CONNECT_TIMEOUT=30',
                             'ansible-playbook',
-                            'ansible/site.yml',
-                            '-i ansible/hosts.ini',
-                            '--connection=ssh',
-                            '--ssh-extra-args="-o StrictHostKeyChecking=no -o ConnectTimeout=60 -o ServerAliveInterval=30"',
+                            'ansible/${ansible_playbook}',
+                            '-i ansible/${ansible_inventory}',
                             '--extra-vars',
-                            "'ansible_password=${params.SSH_PASSWORD} ansible_become_password=${params.SUDO_PASSWORD}'",
-                            '--timeout=30',
-                            '--forks=1'
+                            "'ansible_password=${ansible_password} ansible_become_password=${ansible_password}'",
                         ]
                         
                         sh "echo '\033[38;2;138;43;226m[Pipeline] Starting Ansible playbook execution...\033[0m'"
