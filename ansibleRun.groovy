@@ -55,17 +55,7 @@ pipeline {
                     if (!otusLib.checkAnsible()) {
                         error("Ansible is not installed")
                     }
-                    
 
-                    def requiredFiles = [
-                        "${ansible_inventory}",
-                        "${ansible_playbook}",
-                        "${ansible_cfg}"
-                    ]
-                    
-                    if (!otusLib.checkDirectory(requiredFiles)) {
-                        error("Required Ansible files are missing")
-                    }
                 }
             }
         }
