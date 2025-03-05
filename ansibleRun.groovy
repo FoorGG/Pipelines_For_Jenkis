@@ -75,8 +75,8 @@ pipeline {
                     try {
                         def cmd = [
                             'ansible-playbook',
-                            "ansible/${ansible_playbook}",
-                            "-i ansible/${ansible_inventory}",
+                            "${ansible_playbook}",
+                            "-i ${ansible_inventory}",
                             "-e \"ansible_password=${ansible_password} ansible_become_password=${ansible_password}\""
                         ]
                         
