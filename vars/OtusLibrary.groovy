@@ -47,7 +47,7 @@ class OtusLibraryImpl implements Serializable {
             requiredFiles.each { file ->
                 def fileExists
                 def filePath
-                if (file == 'hosts.ini') {
+                if (file == 'ansible.cfg') {
                         fileExists = script.sh(
                         script: "test -f ${file}",
                         returnStatus: true
