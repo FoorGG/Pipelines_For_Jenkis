@@ -62,42 +62,6 @@ class OtusLibraryImpl implements Serializable {
             return false
         }
     }
-
-    def runPlaybook(Map config) {
-        script.sh "echo '\033[38;2;138;43;226m[OtusLibrary] Starting Ansible playbook execution...\033[0m'"
-        
-        try {
-
-            script.sh "echo '\033[38;2;138;43;226m[OtusLibrary] Checking files...\033[0m'"
-            script.sh "ls -la ${config.inventory}"
-            script.sh "cat ${config.inventory}"
-            
-            def cmd = [
-                'ansible-playbook',
-                config.playbook,
-                "-i ${config.inventory}",
-                "--extra-vars",
-                "'ansible_password=${config.password} ansible_become_password=${config.password}'"
-            ]
-            
-            def result = script.sh(
-                script: cmd.join(' '),
-                returnStatus: true
-            )
-
-            if (result == 0) {
-                script.sh "echo '\033[38;2;138;43;226m[OtusLibrary] Playbook execution completed successfully\033[0m'"
-                return true
-            } else {
-                script.sh "echo '\033[38;2;255;0;0m[OtusLibrary] Playbook execution failed with code: ${result}\033[0m'"
-                return false
-            }
-
-        } catch (Exception e) {
-            script.sh "echo '\033[38;2;255;0;0m[OtusLibrary] Error executing playbook: ${e.getMessage()}\033[0m'"
-            return false
-        }
-    }
 }
 
 def call(script) {

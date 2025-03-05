@@ -7,6 +7,7 @@ String ansible_inventory = env.ANSIBLE_INVENTORY
 String ansible_cfg = env.ANSIBLE_CFG
 String ansible_path = env.ANSIBLE_PATH
 String ansible_password = env.ANSIBLE_PASSWORD
+String ansible_credentials = env.ANSIBLE_CREDENTIALS
 
 library identifier: 'OtusLibrary@main', 
         retriever: modernSCM([
@@ -71,31 +72,16 @@ pipeline {
         
         stage('Run Ansible') {
             steps {
-                script {
-                    try {
-                        def cmd = [
-                            'ansible-playbook',
-                            "${ansible_playbook}",
-                            "-i ${ansible_inventory}",
-                            "-e \"ansible_password=${ansible_password} ansible_become_password=${ansible_password}\""
-                        ]
-                        
-                        sh "echo '\033[38;2;138;43;226m[Pipeline] Starting Ansible playbook execution...\033[0m'"
-                        sh "echo '\033[38;2;138;43;226m[Pipeline] Executing: ${cmd.join(' ')}\033[0m'"
-                        
-
-                        def result = sh(
-                            script: cmd.join(' '),
-                            returnStatus: true
-                        )
-
-                        if (result != 0) {
-                            error("Ansible playbook execution failed with code: ${result}")
-                        }
-                    } catch (Exception e) {
-                        error("Error executing playbook: ${e.getMessage()}")
-                    }
-                }
+                ansiblePlaybook(
+                    playbook: "${ansible_playbook}",
+                    inventory: "${ansible_inventory}",
+                    credentialsId: "${ansible_credentials}",
+                    colorized: true,
+                    extras: '--ssh-extra-args="-o StrictHostKeyChecking=no -o ConnectTimeout=60 -o ServerAliveInterval=30" --forks=5',
+                    extraVars: [
+                        ansible_connection: 'ssh'
+                    ]
+                )
             }
         }
     }
