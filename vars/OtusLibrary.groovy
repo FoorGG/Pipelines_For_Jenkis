@@ -18,7 +18,9 @@ class OtusLibraryImpl implements Serializable {
 
     def checkAnsible() {
         
-        script.sh "echo '\033[38;2;0;0;255m[OtusLibrary.checkAnsible] INFO: Starting Ansible check...\033[0m'"
+        // script.sh "echo '\033[38;2;0;0;255m[OtusLibrary.checkAnsible] INFO: Starting Ansible check...\033[0m'"
+        println("\033[38;2;0;0;255m[OtusLibrary.checkAnsible] INFO: Starting Ansible check...\033[0m")
+        
         try {
 
             def result = script.sh(script: 'ansible --version', returnStatus: true)
