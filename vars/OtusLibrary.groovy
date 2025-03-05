@@ -45,11 +45,19 @@ class OtusLibraryImpl implements Serializable {
 
             def missingFiles = []
             requiredFiles.each { file ->
-                def filePath = "${path}/${file}"
-                def fileExists = script.sh(
-                    script: "test -f ${filePath}",
-                    returnStatus: true
-                ) == 0
+                if (file == 'hosts.ini') {
+                    def filePath = "$${file}"
+                    def fileExists = script.sh(
+                        script: "test -f ${filePath}",
+                        returnStatus: true
+                    ) == 0
+                } else {
+                    def filePath = "${path}/${file}"
+                    def fileExists = script.sh(
+                        script: "test -f ${filePath}",
+                        returnStatus: true
+                    ) == 0
+                }
 
                 if (!fileExists) {
                     missingFiles.add(file)
