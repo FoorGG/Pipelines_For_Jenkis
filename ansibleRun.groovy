@@ -79,7 +79,8 @@ pipeline {
                     colorized: true,
                     extras: '--ssh-extra-args="-o StrictHostKeyChecking=no -o ConnectTimeout=60 -o ServerAliveInterval=30" --forks=5',
                     extraVars: [
-                        ansible_connection: 'ssh'
+                        ansible_connection: 'ssh',
+                        ansible_become_password: "${ansible_password}"
                     ]
                 )
             }
