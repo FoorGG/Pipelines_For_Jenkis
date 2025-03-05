@@ -92,15 +92,11 @@ class OtusLibraryImpl implements Serializable {
             script.sh "cat ${config.inventory}"
             
             def cmd = [
-                'ANSIBLE_HOST_KEY_CHECKING=False',
                 'ansible-playbook',
                 config.playbook,
                 "-i ${config.inventory}",
-                '--connection=ssh',
-                '--ssh-extra-args="-o StrictHostKeyChecking=no"',
                 "--extra-vars",
-                "'ansible_password=${config.password} ansible_become_password=${config.password}'",
-                "-u povarincev-av"
+                "'ansible_password=${config.password} ansible_become_password=${config.password}'"
             ]
             
             def result = script.sh(
