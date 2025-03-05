@@ -48,9 +48,8 @@ class OtusLibraryImpl implements Serializable {
                 def fileExists
                 def filePath
                 if (file == 'hosts.ini') {
-                        filePath = "${file}"
                         fileExists = script.sh(
-                        script: "test -f ${filePath}",
+                        script: "test -f ${file}",
                         returnStatus: true
                     ) == 0
                 } else {
