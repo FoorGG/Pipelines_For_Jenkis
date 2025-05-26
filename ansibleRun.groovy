@@ -1,13 +1,13 @@
-String library_url = env.LIBRARY_URL
-String git_url = env.GIT_URL
-String git_branch = env.GIT_BRANCH
-String git_credentials = env.GIT_CREDENTIALS
-String ansible_playbook = env.ANSIBLE_PLAYBOOK
-String ansible_inventory = env.ANSIBLE_INVENTORY
-String ansible_cfg = env.ANSIBLE_CFG
-String ansible_path = env.ANSIBLE_PATH
-String ansible_become_password = env.ANSIBLE_BECOME_PASSWORD
-String ansible_credentials = env.ANSIBLE_CREDENTIALS
+final String library_url = env.LIBRARY_URL
+final String git_url = env.GIT_URL
+final String git_branch = env.GIT_BRANCH
+final String git_credentials = env.GIT_CREDENTIALS
+final String ansible_playbook = env.ANSIBLE_PLAYBOOK
+final String ansible_inventory = env.ANSIBLE_INVENTORY
+final String ansible_cfg = env.ANSIBLE_CFG
+final String ansible_path = env.ANSIBLE_PATH
+final String ansible_become_password = env.ANSIBLE_BECOME_PASSWORD
+final String ansible_credentials = env.ANSIBLE_CREDENTIALS
 
 library identifier: 'OtusLibrary@main', 
         retriever: modernSCM([
